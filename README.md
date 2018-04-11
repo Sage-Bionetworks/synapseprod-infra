@@ -1,2 +1,2 @@
 # synapseprod-infra
-Synapse Production Infrastructure
+Synapse Development Infrastructure
