@@ -82,7 +82,7 @@ UPDATE_CMD="aws cloudformation update-stack \
 --parameters \
 ParameterKey=PrivateSubnetZones,ParameterValue=\"us-east-1c,us-east-1d,us-east-1e\" \
 ParameterKey=PublicSubnetZones,ParameterValue=\"us-east-1c,us-east-1d,us-east-1e\" \
-ParameterKey=VpcName,ParameterValue="sagevpc" \
+ParameterKey=VpcName,ParameterValue="synapseprod-vpc" \
 ParameterKey=VpcSubnetPrefix,ParameterValue="10.10""
 message=$($UPDATE_CMD 2>&1 1>/dev/null)
 error_code=$(echo $?)
