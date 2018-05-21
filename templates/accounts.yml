@@ -53,19 +53,6 @@ Resources:
               - "sts:AssumeRole"
       Path: "/"
   
-  # AWSIAMCreateRolePolicy:
-  #   Type: 'AWS::IAM::ManagedPolicy'
-  #   Properties:
-  #     PolicyDocument:
-  #       Version: '2012-10-17'
-  #       Statement:
-  #         -
-  #           Effect: Allow
-  #           Action:
-  #             - iam:AttachRolePolicy
-  #             - iam:CreateRole
-  #           Resource: "*"
-
   AWSIAMDynamoDenyDeletePolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
