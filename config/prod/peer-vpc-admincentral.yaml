@@ -1,0 +1,10 @@
+template_path: remote-templates/peer-route-config.yaml
+stack_name: peer-vpc-admincentral
+parameters:
+  PeeringConnectionId: pcx-3f28d957
+  VpcPrivateRouteTable: rtb-63ce7e1f
+  VpcPublicRouteTable: rtb-97ce7eeb
+  VpnCidr: 10.1.0.0/16
+hooks:
+  before_update:
+    - !cmd "aws --profile {{ var.profile }} s3 cp s3://{{ environment_variable.AdminCentralInfraCfBucket }}/aws-infra/master/peer-route-config.yaml ./remote-templates/peer-route-config.yaml"
