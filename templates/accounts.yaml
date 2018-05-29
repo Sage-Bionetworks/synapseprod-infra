@@ -28,6 +28,69 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+  AWSIAMBruce.HoffUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: bruce.hoff@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
+  AWSIAMJay.HodgsonUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: jay.hodgson@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
+  AWSIAMJohn.HillUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: john.hill@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
+  AWSIAMKimyen.LadiaUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: kimyen.ladia@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
+  AWSIAMMeredith.SlotaUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: meredith.slota@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
+  AWSIAMMike.KellenUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: mike.kellen@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
+  AWSIAMZiming.DongUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: ziming.dong@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
   AWSIAMDeveloperUsersGroup:
     Type: 'AWS::IAM::Group'
     Properties:
