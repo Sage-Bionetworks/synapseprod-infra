@@ -13,5 +13,5 @@ install:
 - pip install spectre
 script:
 - ./validate-templates.sh
-- sceptre --var "profile=default" --var "region=us-east-1" launch-env prod
+- spectre --var "profile=default" --var "region=us-east-1" launch-env prod
 
