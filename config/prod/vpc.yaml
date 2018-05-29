@@ -1,5 +1,5 @@
 template_path: remote-templates/vpc.yaml
-stack_name: sage-default-vpc
+stack_name: vpc
 parameters:
   VpcSubnetPrefix: "10.10"
   VpcName: sage-default-vpc
