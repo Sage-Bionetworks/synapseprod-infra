@@ -2,6 +2,7 @@ sudo: false
 language: python
 python: 3.5
 cache: pip
+fast_finish: true
 install:
 - ./setup_git_crypt.sh
 - openssl aes-256-cbc -K $encrypted_6d847c74d8d2_key -iv $encrypted_6d847c74d8d2_iv -in git-crypt.key.enc -out ./git-crypt.key -d
@@ -10,8 +11,7 @@ install:
 - source env_vars && source env_vars.secret
 - /tmp/git-crypt-master/git-crypt lock
 - ./setup_aws_cli.sh
-- pip install spectre
+- pip install sceptre
 script:
-- ./validate-templates.sh
-- spectre --var "profile=default" --var "region=us-east-1" launch-env prod
-
+- ./validate-templates.sh || travis_terminate 1
+- sceptre --var "profile=default" --var "region=us-east-1" launch-env prod
