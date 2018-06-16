@@ -1,0 +1,10 @@
+template_path: remote-templates/GuardDutyMember.yaml
+stack_name: guardduty-member
+dependencies:
+  - essentials
+hooks:
+  before_update:
+    - !cmd "aws --profile {{ var.profile }} s3 cp s3://{{ environment_variable.AdminCentralInfraCfBucket }}/aws-infra/master/GuardDutyMember.yaml ./remote-templates/GuardDutyMember.yaml"
+parameters:
+  MasterAccountId: "{{ environment_variable.LogcentralAwsAccountId }}"
+  InvitationId: 94b20c8f05e8a59c30e21165bb6f301c
