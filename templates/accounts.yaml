@@ -16,6 +16,7 @@ Resources:
       UserName: x.schildwachter@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -25,6 +26,7 @@ Resources:
       UserName: khai.do@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -34,6 +36,7 @@ Resources:
       UserName: bruce.hoff@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -70,6 +73,7 @@ Resources:
       UserName: meredith.slota@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -97,8 +101,31 @@ Resources:
     Properties:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/ReadOnlyAccess
-        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
         - !Ref AWSIAMEnforceMfaPolicy
+
+  AWSIAMBillingUsersGroup:
+    Type: "AWS::IAM::Group"
+    Properties:
+      ManagedPolicyArns:
+        - !Ref AWSIAMBillingAccessPolicy
+
+  AWSIAMBillingAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - 
+            Effect: "Allow"
+            Action:
+              - aws-portal:*Billing
+              - awsbillingconsole:*Billing
+              - aws-portal:*Usage
+              - awsbillingconsole:*Usage
+              - budgets:ViewBudget
+              - budgets:ModifyBudget
+              - cur:*
+            Resource: "*"
 
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
@@ -121,6 +148,7 @@ Resources:
     Properties:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/PowerUserAccess
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
         - !Ref AWSIAMDynamoDenyDeletePolicy
         - !Ref AWSIAMRdsDenyDeletePolicy
       Path: "/"
