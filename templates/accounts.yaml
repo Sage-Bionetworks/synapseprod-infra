@@ -16,7 +16,6 @@ Resources:
       UserName: x.schildwachter@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
-        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -26,7 +25,6 @@ Resources:
       UserName: khai.do@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
-        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -36,7 +34,6 @@ Resources:
       UserName: bruce.hoff@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
-        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -73,7 +70,6 @@ Resources:
       UserName: meredith.slota@sagebase.org
       Groups:
         - !Ref AWSIAMDeveloperUsersGroup
-        - !Ref AWSIAMBillingUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -103,14 +99,42 @@ Resources:
         - arn:aws:iam::aws:policy/ReadOnlyAccess
         - !Ref AWSIAMEnforceMfaPolicy
 
-  AWSIAMBillingUsersGroup:
-    Type: "AWS::IAM::Group"
+  AWSIAMAdminRole:
+    Type: "AWS::IAM::Role"
     Properties:
-      ManagedPolicyArns:
-        - !Ref AWSIAMBillingAccessPolicy
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              AWS:
+                - !GetAtt AWSIAMXavierSchildwachterUser.Arn
+                - !GetAtt AWSIAMKhaiDoUser.Arn
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+
+  AWSIAMBillingUserRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              AWS:
+                - !GetAtt AWSIAMXavierSchildwachterUser.Arn
+                - !GetAtt AWSIAMKhaiDoUser.Arn
+                - !GetAtt AWSIAMBruceHoffUser.Arn
+                - !GetAtt AWSIAMMeredithSlotaUser.Arn
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
 
   AWSIAMBillingAccessPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
+    Type: "AWS::IAM::Policy"
     Properties:
       PolicyDocument: 
         Version: "2012-10-17"
@@ -126,6 +150,9 @@ Resources:
               - budgets:ModifyBudget
               - cur:*
             Resource: "*"
+      Roles:
+        -
+          !Ref AWSIAMBillingUserRole
 
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
