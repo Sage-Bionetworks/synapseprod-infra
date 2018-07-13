@@ -7,4 +7,4 @@ parameters:
   PublicSubnetZones: "us-east-1c,us-east-1d,us-east-1e"
 hooks:
   before_update:
-    - !cmd "aws --profile {{ var.profile }} s3 cp s3://{{ environment_variable.AdminCentralInfraCfBucket }}/aws-infra/master/vpc.yaml ./remote-templates/vpc.yaml"
+    - !cmd "curl https://raw.githubusercontent.com/Sage-Bionetworks/aws-infra/master/templates/vpc.yaml --create-dirs -o remote-templates/vpc.yaml"
