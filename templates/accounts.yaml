@@ -136,6 +136,7 @@ Resources:
   AWSIAMBillingAccessPolicy:
     Type: "AWS::IAM::Policy"
     Properties:
+      PolicyName: "billing"
       PolicyDocument: 
         Version: "2012-10-17"
         Statement:
