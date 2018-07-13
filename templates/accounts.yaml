@@ -91,15 +91,14 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+
   AWSIAMDeveloperUsersGroup:
     Type: 'AWS::IAM::Group'
     Properties:
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/PowerUserAccess
-        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
         - !Ref AWSIAMEnforceMfaPolicy
-        - !Ref AWSIAMDynamoDenyDeletePolicy
-        - !Ref AWSIAMRdsDenyDeletePolicy
+
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -115,7 +114,72 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Path: "/"
-  
+
+  AWSIAMBillingUserRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              AWS:
+                - !GetAtt AWSIAMXavierSchildwachterUser.Arn
+                - !GetAtt AWSIAMKhaiDoUser.Arn
+                - !GetAtt AWSIAMBruceHoffUser.Arn
+                - !GetAtt AWSIAMMeredithSlotaUser.Arn
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+
+  AWSIAMBillingAccessPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - 
+            Effect: "Allow"
+            Action:
+              - aws-portal:*Billing
+              - awsbillingconsole:*Billing
+              - aws-portal:*Usage
+              - awsbillingconsole:*Usage
+              - budgets:ViewBudget
+              - budgets:ModifyBudget
+              - cur:*
+            Resource: "*"
+      Roles:
+        -
+          !Ref AWSIAMBillingUserRole
+
+  AWSIAMAdminRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Principal:
+              AWS:
+                - !GetAtt AWSIAMXavierSchildwachterUser.Arn
+                - !GetAtt AWSIAMKhaiDoUser.Arn
+            Action:
+              - "sts:AssumeRole"
+      Path: "/"
+
+  AWSIAMPowerUserRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/PowerUserAccess
+        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+        - !Ref AWSIAMDynamoDenyDeletePolicy
+        - !Ref AWSIAMRdsDenyDeletePolicy
+      Path: "/"
+
   AWSIAMDynamoDenyDeletePolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
@@ -129,6 +193,7 @@ Resources:
               - dynamodb:UpdateTable
               - dynamodb:DeleteTable
             Resource: "*"
+
   AWSIAMRdsDenyDeletePolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
@@ -143,6 +208,7 @@ Resources:
               - rds:DeleteDBInstance
               - rds:DeleteDBSnapshot
             Resource: "*"
+
   AWSIAMAdminRolePolicy:
     Type: "AWS::IAM::Policy"
     Properties:
@@ -157,13 +223,15 @@ Resources:
       Roles:
         -
           !Ref AWSIAMAdminRole
-  AWSIAMInstanceProfile:
+
+  AWSIAMAdminInstanceProfile:
     Type: "AWS::IAM::InstanceProfile"
     Properties:
       Path: "/"
       Roles:
         -
           !Ref "AWSIAMAdminRole"
+
   # resources for auditors
   AWSIAMAuditorAccessPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
@@ -183,6 +251,7 @@ Resources:
             - sqs:ReceiveMessage
             - sdb:Select
             Resource: "*"
+
   AWSIAMAuditorsGroup:
     Type: 'AWS::IAM::Group'
     Properties:
