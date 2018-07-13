@@ -154,31 +154,26 @@ Resources:
         -
           !Ref AWSIAMBillingUserRole
 
-  AWSIAMAdminRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Principal:
-              AWS:
-                - !GetAtt AWSIAMXavierSchildwachterUser.Arn
-                - !GetAtt AWSIAMKhaiDoUser.Arn
-            Action:
-              - "sts:AssumeRole"
-      Path: "/"
-
-  AWSIAMPowerUserRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/PowerUserAccess
-        - arn:aws:iam::aws:policy/IAMReadOnlyAccess
-        - !Ref AWSIAMDynamoDenyDeletePolicy
-        - !Ref AWSIAMRdsDenyDeletePolicy
-      Path: "/"
+  # Uncomment when users need to be given the ability to escalad themselves to powerusers
+  # AWSIAMPowerUserRole:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     ManagedPolicyArns:
+  #       - arn:aws:iam::aws:policy/PowerUserAccess
+  #       - arn:aws:iam::aws:policy/IAMReadOnlyAccess
+  #       - !Ref AWSIAMDynamoDenyDeletePolicy
+  #       - !Ref AWSIAMRdsDenyDeletePolicy
+  #     AssumeRolePolicyDocument:
+  #       Version: "2012-10-17"
+  #       Statement:
+  #         -
+  #           Effect: "Allow"
+  #           Principal:
+  #             AWS:
+  #               -
+  #           Action:
+  #             - "sts:AssumeRole"
+  #     Path: "/"
 
   AWSIAMDynamoDenyDeletePolicy:
     Type: 'AWS::IAM::ManagedPolicy'
@@ -295,6 +290,7 @@ Resources:
                 - ''
                 - - 'arn:aws:s3:::'
                   - !ImportValue us-east-1-essentials-CloudtrailBucket
+
   AWSIAMLoggingServiceGroup:
     Type: 'AWS::IAM::Group'
     Properties:
