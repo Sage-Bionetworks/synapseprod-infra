@@ -91,6 +91,15 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+  AWSIAMSynapseEmergencyUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: synapse.emergency@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
 
   AWSIAMDeveloperUsersGroup:
     Type: 'AWS::IAM::Group'
@@ -111,6 +120,8 @@ Resources:
               AWS:
                 - !GetAtt AWSIAMXavierSchildwachterUser.Arn
                 - !GetAtt AWSIAMKhaiDoUser.Arn
+                - !GetAtt AWSIAMJohnHillUser.Arn
+                - !GetAtt AWSIAMSynapseEmergencyUser.Arn
             Action:
               - "sts:AssumeRole"
       Path: "/"
