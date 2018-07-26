@@ -100,6 +100,15 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+  AWSIAMMichaelLeeUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: michael.lee@sagebase.org
+      Groups:
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
 
   AWSIAMDeveloperUsersGroup:
     Type: 'AWS::IAM::Group'
