@@ -116,6 +116,7 @@ Resources:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/ReadOnlyAccess
         - !Ref AWSIAMEnforceMfaPolicy
+        - !Ref AWSIAMDevelopersAdditionalAccessPolicy
 
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
@@ -174,6 +175,25 @@ Resources:
       Roles:
         -
           !Ref AWSIAMBillingUserRole
+
+  AWSIAMDevelopersAdditionalAccessPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: "devadditionalrights"
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement:
+          - 
+            Effect: "Allow"
+            Action:
+              - cloudsearch:search
+            Resource: "*"
+          -
+            Effect: "Allow"
+            Action:
+              - rds:Modify*
+            Resource: "*"
+
 
   # Uncomment when users need to be given the ability to escalad themselves to powerusers
   # AWSIAMPowerUserRole:
