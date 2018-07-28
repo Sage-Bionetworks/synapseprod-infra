@@ -179,7 +179,6 @@ Resources:
   AWSIAMDevelopersAdditionalAccessPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
-      PolicyName: "devadditionalrights"
       PolicyDocument: 
         Version: "2012-10-17"
         Statement:
