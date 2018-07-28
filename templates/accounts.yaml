@@ -177,7 +177,7 @@ Resources:
           !Ref AWSIAMBillingUserRole
 
   AWSIAMDevelopersAdditionalAccessPolicy:
-    Type: "AWS::IAM::Policy"
+    Type: "AWS::IAM::ManagedPolicy"
     Properties:
       PolicyName: "devadditionalrights"
       PolicyDocument: 
