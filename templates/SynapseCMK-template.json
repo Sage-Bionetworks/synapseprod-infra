@@ -116,6 +116,20 @@
 										"kms:*"
 									],
 									"Resource": "*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": [
+										"waf-regional:*"
+									],
+									"Resource": "*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": [
+										"vpc:*"
+									],
+									"Resource": "*"
 								}
 							]
 						}
