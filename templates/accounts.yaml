@@ -130,7 +130,6 @@ Resources:
               AWS:
                 - !GetAtt AWSIAMXavierSchildwachterUser.Arn
                 - !GetAtt AWSIAMKhaiDoUser.Arn
-                - !GetAtt AWSIAMJohnHillUser.Arn
                 - !GetAtt AWSIAMSynapseEmergencyUser.Arn
             Action:
               - "sts:AssumeRole"
