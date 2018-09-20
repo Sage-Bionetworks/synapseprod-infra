@@ -130,6 +130,13 @@
 										"vpc:*"
 									],
 									"Resource": "*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": [
+										"sqs:*"
+									],
+									"Resource": "*"
 								}
 							]
 						}
