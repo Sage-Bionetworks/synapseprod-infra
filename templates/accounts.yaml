@@ -15,7 +15,9 @@ Resources:
     Properties:
       UserName: x.schildwachter@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingManagersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -24,7 +26,9 @@ Resources:
     Properties:
       UserName: khai.do@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingManagersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -33,7 +37,9 @@ Resources:
     Properties:
       UserName: bruce.hoff@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingManagersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -42,6 +48,7 @@ Resources:
     Properties:
       UserName: jay.hodgson@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
@@ -51,6 +58,7 @@ Resources:
     Properties:
       UserName: john.hill@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
@@ -60,6 +68,7 @@ Resources:
     Properties:
       UserName: kimyen.ladia@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
@@ -69,7 +78,9 @@ Resources:
     Properties:
       UserName: meredith.slota@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMBillingManagersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -78,7 +89,8 @@ Resources:
     Properties:
       UserName: mike.kellen@sagebase.org
       Groups:
-        - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMAllUsersGroup
+        - !Ref AWSIAMBillingManagersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -87,6 +99,7 @@ Resources:
     Properties:
       UserName: ziming.dong@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
@@ -96,6 +109,7 @@ Resources:
     Properties:
       UserName: synapse.emergency@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
@@ -105,19 +119,17 @@ Resources:
     Properties:
       UserName: michael.lee@sagebase.org
       Groups:
+        - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
-
   AWSIAMDeveloperUsersGroup:
     Type: 'AWS::IAM::Group'
     Properties:
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/ReadOnlyAccess
-        - !Ref AWSIAMEnforceMfaPolicy
         - !Ref AWSIAMDevelopersAdditionalAccessPolicy
-
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -134,47 +146,6 @@ Resources:
             Action:
               - "sts:AssumeRole"
       Path: "/"
-
-  AWSIAMBillingUserRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: "2012-10-17"
-        Statement:
-          -
-            Effect: "Allow"
-            Principal:
-              AWS:
-                - !GetAtt AWSIAMXavierSchildwachterUser.Arn
-                - !GetAtt AWSIAMKhaiDoUser.Arn
-                - !GetAtt AWSIAMBruceHoffUser.Arn
-                - !GetAtt AWSIAMMeredithSlotaUser.Arn
-            Action:
-              - "sts:AssumeRole"
-      Path: "/"
-
-  AWSIAMBillingAccessPolicy:
-    Type: "AWS::IAM::Policy"
-    Properties:
-      PolicyName: "billing"
-      PolicyDocument: 
-        Version: "2012-10-17"
-        Statement:
-          - 
-            Effect: "Allow"
-            Action:
-              - aws-portal:*Billing
-              - awsbillingconsole:*Billing
-              - aws-portal:*Usage
-              - awsbillingconsole:*Usage
-              - budgets:ViewBudget
-              - budgets:ModifyBudget
-              - cur:*
-            Resource: "*"
-      Roles:
-        -
-          !Ref AWSIAMBillingUserRole
-
   AWSIAMDevelopersAdditionalAccessPolicy:
     Type: "AWS::IAM::ManagedPolicy"
     Properties:
@@ -191,29 +162,6 @@ Resources:
             Action:
               - rds:Modify*
             Resource: "*"
-
-
-  # Uncomment when users need to be given the ability to escalad themselves to powerusers
-  # AWSIAMPowerUserRole:
-  #   Type: "AWS::IAM::Role"
-  #   Properties:
-  #     ManagedPolicyArns:
-  #       - arn:aws:iam::aws:policy/PowerUserAccess
-  #       - arn:aws:iam::aws:policy/IAMReadOnlyAccess
-  #       - !Ref AWSIAMDynamoDenyDeletePolicy
-  #       - !Ref AWSIAMRdsDenyDeletePolicy
-  #     AssumeRolePolicyDocument:
-  #       Version: "2012-10-17"
-  #       Statement:
-  #         -
-  #           Effect: "Allow"
-  #           Principal:
-  #             AWS:
-  #               -
-  #           Action:
-  #             - "sts:AssumeRole"
-  #     Path: "/"
-
   AWSIAMDynamoDenyDeletePolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
@@ -227,7 +175,6 @@ Resources:
               - dynamodb:UpdateTable
               - dynamodb:DeleteTable
             Resource: "*"
-
   AWSIAMRdsDenyDeletePolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
@@ -257,56 +204,18 @@ Resources:
       Roles:
         -
           !Ref AWSIAMAdminRole
-
-  AWSIAMAdminInstanceProfile:
-    Type: "AWS::IAM::InstanceProfile"
-    Properties:
-      Path: "/"
-      Roles:
-        -
-          !Ref "AWSIAMAdminRole"
-
-  IAMLoggingServiceManagedPolicy:
-    Type: "AWS::IAM::ManagedPolicy"
-    Properties:
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Action:
-              - 's3:GetObject'
-              - 's3:GetObjectVersion'
-              - 's3:ListBucketVersions'
-              - 's3:ListBucket'
-            Effect: Allow
-            Resource:
-              - !Join
-                - ''
-                - - 'arn:aws:s3:::elasticbeanstalk-'
-                  - !Ref AWS::Region
-                  - '-'
-                  - !Ref AWS::AccountId
-                  - '/*'
-              - !Join
-                - ''
-                - - 'arn:aws:s3:::elasticbeanstalk-'
-                  - !Ref AWS::Region
-                  - '-'
-                  - !Ref AWS::AccountId
-              - !Join
-                - ''
-                - - 'arn:aws:s3:::'
-                  - !ImportValue us-east-1-essentials-CloudtrailBucket
-                  - '/*'
-              - !Join
-                - ''
-                - - 'arn:aws:s3:::'
-                  - !ImportValue us-east-1-essentials-CloudtrailBucket
-
-  AWSIAMLoggingServiceGroup:
+  AWSIAMAllUsersGroup:
     Type: 'AWS::IAM::Group'
     Properties:
       ManagedPolicyArns:
-        - !Ref IAMLoggingServiceManagedPolicy
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+        - !Ref AWSIAMEnforceMfaPolicy
+  AWSIAMBillingManagersGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/job-function/Billing
+        - !Ref AWSIAMOrganizationsFullAccessPolicy
   # policy to enforce MFA
   AWSIAMEnforceMfaPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
