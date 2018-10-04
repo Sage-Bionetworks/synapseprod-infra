@@ -139,6 +139,8 @@ Resources:
     Properties:
       ManagedPolicyArns:
         - !Ref AWSIAMDevelopersAdditionalAccessPolicy
+        - arn:aws:iam::aws:policy/AmazonAthenaFullAccess
+        - arn:aws:iam::aws:policy/AmazonElasticMapReduceFullAccess
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -170,33 +172,6 @@ Resources:
             Effect: "Allow"
             Action:
               - rds:Modify*
-            Resource: "*"
-  AWSIAMDynamoDenyDeletePolicy:
-    Type: 'AWS::IAM::ManagedPolicy'
-    Properties:
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          -
-            Effect: Deny
-            Action:
-              # UpdateTable operation retricts deletion of indexes
-              - dynamodb:UpdateTable
-              - dynamodb:DeleteTable
-            Resource: "*"
-  AWSIAMRdsDenyDeletePolicy:
-    Type: 'AWS::IAM::ManagedPolicy'
-    Properties:
-      PolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          -
-            Effect: Deny
-            Action:
-              - rds:DeleteDBCluster
-              - rds:DeleteDBClusterSnapshot
-              - rds:DeleteDBInstance
-              - rds:DeleteDBSnapshot
             Resource: "*"
   AWSIAMOrganizationsFullAccessPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
