@@ -3,8 +3,8 @@ stack_name: guardduty-member
 dependencies:
   - essentials
 parameters:
-  MasterAccountId: !ssm /infra/LogcentralAwsAccountId
-  InvitationId: 94b20c8f05e8a59c30e21165bb6f301c
+  MasterAccountId: !ssm /infra/SecuritycentralAwsAccountId
+  InvitationId: 7ab3d070757a69a548196c2a55c89830
 hooks:
   before_update:
     - !cmd "curl https://raw.githubusercontent.com/Sage-Bionetworks/aws-infra/master/templates/GuardDutyMember.yaml --create-dirs -o remote-templates/GuardDutyMember.yaml"
