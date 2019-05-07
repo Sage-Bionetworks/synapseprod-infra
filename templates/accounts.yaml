@@ -143,8 +143,8 @@ Resources:
                 - !GetAtt AWSIAMXavierSchildwachterUser.Arn
                 - !GetAtt AWSIAMKhaiDoUser.Arn
                 - !GetAtt AWSIAMSynapseEmergencyUser.Arn
-                - !GetAtt AWSIAMJohnHillUser.Arn
-                - !GetAtt AWSIAMBruceHoffUser.Arn
+#                - !GetAtt AWSIAMJohnHillUser.Arn
+#                - !GetAtt AWSIAMBruceHoffUser.Arn
             Action:
               - "sts:AssumeRole"
       Path: "/"
