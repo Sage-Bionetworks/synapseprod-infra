@@ -73,17 +73,6 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
-  AWSIAMMeredithSlotaUser:
-    Type: 'AWS::IAM::User'
-    Properties:
-      UserName: meredith.slota@sagebase.org
-      Groups:
-        - !Ref AWSIAMAllUsersGroup
-        - !Ref AWSIAMDeveloperUsersGroup
-        - !Ref AWSIAMBillingManagersGroup
-      LoginProfile:
-        Password: !Ref InitNewUserPassword
-        PasswordResetRequired: true
   AWSIAMMikeKellenUser:
     Type: 'AWS::IAM::User'
     Properties:
@@ -134,6 +123,16 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+  AWSIAMAaronHaydenUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: aaron.hayden@sagebase.org
+      Groups:
+        - !Ref AWSIAMAllUsersGroup
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
   AWSIAMDeveloperUsersGroup:
     Type: 'AWS::IAM::Group'
     Properties:
@@ -154,6 +153,7 @@ Resources:
                 - !GetAtt AWSIAMXavierSchildwachterUser.Arn
                 - !GetAtt AWSIAMKhaiDoUser.Arn
                 - !GetAtt AWSIAMSynapseEmergencyUser.Arn
+                - !GetAtt AWSIAMAaronHaydenUser.Arn
             Action:
               - "sts:AssumeRole"
       Path: "/"
