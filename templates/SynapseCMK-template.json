@@ -137,6 +137,20 @@
 										"sqs:*"
 									],
 									"Resource": "*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": [
+										"firehose:*"
+									],
+									"Resource": "*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": [
+										"kinesis:*"
+									],
+									"Resource": "*"
 								}
 							]
 						}
