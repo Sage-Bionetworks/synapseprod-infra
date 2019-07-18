@@ -154,7 +154,6 @@ Resources:
                 - !GetAtt AWSIAMKhaiDoUser.Arn
                 - !GetAtt AWSIAMSynapseEmergencyUser.Arn
                 - !GetAtt AWSIAMAaronHaydenUser.Arn
-                - !GetAtt AWSIAMJohnHillUser.Arn
             Action:
               - "sts:AssumeRole"
       Path: "/"
