@@ -73,16 +73,6 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
-  AWSIAMMikeKellenUser:
-    Type: 'AWS::IAM::User'
-    Properties:
-      UserName: mike.kellen@sagebase.org
-      Groups:
-        - !Ref AWSIAMAllUsersGroup
-        - !Ref AWSIAMBillingManagersGroup
-      LoginProfile:
-        Password: !Ref InitNewUserPassword
-        PasswordResetRequired: true
   AWSIAMZimingDongUser:
     Type: 'AWS::IAM::User'
     Properties:
