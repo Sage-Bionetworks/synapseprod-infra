@@ -158,6 +158,13 @@
 										"es:*"
 									],
 									"Resource": "*"
+								},
+								{
+									"Effect": "Allow",
+									"Action": [
+										"glue:*"
+									],
+									"Resource": "*"
 								}
 							]
 						}
