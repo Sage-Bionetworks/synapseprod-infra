@@ -168,9 +168,12 @@
                                 },
                                 {
                                     "Effect": "Allow",
-                                    "Action": [
-                                        "cloudfront:*"
-                                    ],
+                                    "Action": "cloudfront:*",
+                                    "Resource": "*"
+                                },
+                                {
+                                    "Effect": "Allow",
+                                    "Action": "logs:*",
                                     "Resource": "*"
                                 }
                             ]
