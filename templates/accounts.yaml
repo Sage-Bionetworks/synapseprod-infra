@@ -110,6 +110,7 @@ Resources:
       Groups:
         - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMAnalyticsUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -118,8 +119,13 @@ Resources:
     Properties:
       ManagedPolicyArns:
         - !Ref AWSIAMDevelopersAdditionalAccessPolicy
+  AWSIAMAnalyticsUsersGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonAthenaFullAccess
-        - arn:aws:iam::aws:policy/AmazonElasticMapReduceFullAccess
+        - arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess
+        - !Ref AWSIAMAnalyticsUsersAccessPolicy
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -153,6 +159,19 @@ Resources:
             Action:
               - rds:Modify*
             Resource: "*"
+  AWSIAMAnalyticsUsersAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:*"
+            Resource:
+              - "arn:aws:s3:::analytics.sagebase.org"
+              - "arn:aws:s3:::analytics.sagebase.org/*"
   AWSIAMOrganizationsFullAccessPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
