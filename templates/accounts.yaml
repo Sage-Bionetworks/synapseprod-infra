@@ -100,6 +100,7 @@ Resources:
       Groups:
         - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMStaticSynapseUsersAccessPolicy
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -182,6 +183,19 @@ Resources:
             Resource:
               - "arn:aws:s3:::analytics.sagebase.org"
               - "arn:aws:s3:::analytics.sagebase.org/*"
+  AWSIAMStaticSynapseUsersAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:*"
+            Resource:
+              - "arn:aws:s3:::static.synapse.org"
+              - "arn:aws:s3:::static.synapse.org/*"
   AWSIAMOrganizationsFullAccessPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
