@@ -100,7 +100,7 @@ Resources:
       Groups:
         - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
-        - !Ref AWSIAMStaticSynapseUsersAccessPolicy
+        - !Ref AWSIAMStaticSynapseUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -137,6 +137,11 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonAthenaFullAccess
         - arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess
         - !Ref AWSIAMAnalyticsUsersAccessPolicy
+  AWSIAMStaticSynapseUsersGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      ManagedPolicyArns:
+        - !Ref AWSIAMStaticSynapseUsersAccessPolicy
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
