@@ -100,6 +100,7 @@ Resources:
       Groups:
         - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMWebEngineerUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -136,6 +137,11 @@ Resources:
         - arn:aws:iam::aws:policy/AmazonAthenaFullAccess
         - arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess
         - !Ref AWSIAMAnalyticsUsersAccessPolicy
+  AWSIAMWebEngineerUsersGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      ManagedPolicyArns:
+        - !Ref AWSIAMStaticSynapseUsersAccessPolicy
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -182,6 +188,19 @@ Resources:
             Resource:
               - "arn:aws:s3:::analytics.sagebase.org"
               - "arn:aws:s3:::analytics.sagebase.org/*"
+  AWSIAMStaticSynapseUsersAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:*"
+            Resource:
+              - "arn:aws:s3:::static.synapse.org"
+              - "arn:aws:s3:::static.synapse.org/*"
   AWSIAMOrganizationsFullAccessPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
