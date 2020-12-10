@@ -53,6 +53,16 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+  AWSIAMJordanKiangUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: jordan.kiang@sagebase.org
+      Groups:
+        - !Ref AWSIAMAllUsersGroup
+        - !Ref AWSIAMDeveloperUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
   AWSIAMJohnHillUser:
     Type: 'AWS::IAM::User'
     Properties:
@@ -83,6 +93,17 @@ Resources:
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
+  AWSIAMNickGrosenbacherUser:
+    Type: 'AWS::IAM::User'
+    Properties:
+      UserName: nick.grosenbacher@sagebase.org
+      Groups:
+        - !Ref AWSIAMAllUsersGroup
+        - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMWebEngineerUsersGroup
+      LoginProfile:
+        Password: !Ref InitNewUserPassword
+        PasswordResetRequired: true
   AWSIAMAaronHaydenUser:
     Type: 'AWS::IAM::User'
     Properties:
@@ -100,6 +121,7 @@ Resources:
       Groups:
         - !Ref AWSIAMAllUsersGroup
         - !Ref AWSIAMDeveloperUsersGroup
+        - !Ref AWSIAMAnalyticsUsersGroup
       LoginProfile:
         Password: !Ref InitNewUserPassword
         PasswordResetRequired: true
@@ -108,8 +130,18 @@ Resources:
     Properties:
       ManagedPolicyArns:
         - !Ref AWSIAMDevelopersAdditionalAccessPolicy
+  AWSIAMAnalyticsUsersGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AmazonAthenaFullAccess
-        - arn:aws:iam::aws:policy/AmazonElasticMapReduceFullAccess
+        - arn:aws:iam::aws:policy/AWSGlueConsoleFullAccess
+        - !Ref AWSIAMAnalyticsUsersAccessPolicy
+  AWSIAMWebEngineerUsersGroup:
+    Type: 'AWS::IAM::Group'
+    Properties:
+      ManagedPolicyArns:
+        - !Ref AWSIAMStaticSynapseUsersAccessPolicy
   AWSIAMAdminRole:
     Type: "AWS::IAM::Role"
     Properties:
@@ -143,6 +175,32 @@ Resources:
             Action:
               - rds:Modify*
             Resource: "*"
+  AWSIAMAnalyticsUsersAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:*"
+            Resource:
+              - "arn:aws:s3:::analytics.sagebase.org"
+              - "arn:aws:s3:::analytics.sagebase.org/*"
+  AWSIAMStaticSynapseUsersAccessPolicy:
+    Type: "AWS::IAM::ManagedPolicy"
+    Properties:
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Effect: "Allow"
+            Action:
+              - "s3:*"
+            Resource:
+              - "arn:aws:s3:::static.synapse.org"
+              - "arn:aws:s3:::static.synapse.org/*"
   AWSIAMOrganizationsFullAccessPolicy:
     Type: 'AWS::IAM::ManagedPolicy'
     Properties:
