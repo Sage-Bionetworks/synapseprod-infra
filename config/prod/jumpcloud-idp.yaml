@@ -7,5 +7,6 @@ stack_tags:
 parameters:
   SynapseProdAdminMetadata: !file_contents idp/jumpcloud/synapseprod-admin.xml
   SynapseProdDeveloperMetadata: !file_contents idp/jumpcloud/synapseprod-developer.xml
+  SynapseProdReadOnlyMetadata: !file_contents idp/jumpcloud/synapseprod-readonly.xml
 dependencies:
   - "prod/cfn-cr-saml-provider.yaml"
