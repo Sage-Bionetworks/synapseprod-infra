@@ -7,6 +7,9 @@ Parameters:
   SynapseProdDeveloperMetadata:
     Type: String
     Description: "Public certificate for Jumpcloud synapseprod-developer app"
+  SynapseProdReadOnlyMetadata:
+    Type: String
+    Description: "Public certificate for Jumpcloud synapseprod-readonly app"
 Resources:
   SynapseProdAdminSamlProvider:
     Type: Custom::SAMLProvider
@@ -58,6 +61,31 @@ Resources:
             Condition:
               StringEquals:
                 "SAML:aud": "https://signin.aws.amazon.com/saml"
+  SynapseProdReadOnlySamlProvider:
+    Type: Custom::SAMLProvider
+    Properties:
+      ServiceToken: !ImportValue
+        'Fn::Sub': '${AWS::Region}-cfn-cr-saml-provider-FunctionArn'
+      Name: "synapseprod-readonly"
+      Metadata: !Ref SynapseProdReadOnlyMetadata
+      URL: ""
+  SynapseProdReadOnlySamlProviderRole:
+    Type: AWS::IAM::Role
+    Properties:
+      MaxSessionDuration: 28800
+      RoleName: !GetAtt SynapseProdReadOnlySamlProvider.Name
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/ReadOnlyAccess
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Federated: !Ref SynapseProdReadOnlySamlProvider
+            Action: sts:AssumeRoleWithSAML
+            Condition:
+              StringEquals:
+                "SAML:aud": "https://signin.aws.amazon.com/saml"
 Outputs:
   SynapseProdAdminSamlProviderArn:
     Value: !Ref SynapseProdAdminSamlProvider
@@ -75,3 +103,11 @@ Outputs:
     Value: !GetAtt SynapseProdDeveloperSamlProviderRole.Arn
     Export:
       Name: !Sub '${AWS::Region}-${AWS::StackName}-SynapseProdDeveloperSamlProviderRoleArn'
+  SynapseProdReadOnlySamlProviderArn:
+    Value: !Ref SynapseProdReadOnlySamlProvider
+    Export:
+      Name: !Sub '${AWS::Region}-${AWS::StackName}-SynapseProdReadOnlySamlProviderArn'
+  SynapseProdReadOnlySamlProviderRoleArn:
+    Value: !GetAtt SynapseProdReadOnlySamlProviderRole.Arn
+    Export:
+      Name: !Sub '${AWS::Region}-${AWS::StackName}-SynapseProdReadOnlySamlProviderRoleArn'
