@@ -1,3 +1,5 @@
+# This repo has been moved to https://github.com/Sage-Bionetworks-IT/organizations-infra/tree/master/sceptre/synapseprod
+
 # Overview
 Install, configure and manage the AWS synapseprod account.
 
